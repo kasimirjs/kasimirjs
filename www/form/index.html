@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="application/javascript" src="/dist/kasimir.js"></script>
+
+
+    <form id="form1">
+        <input id="text1" type="text" name="text1">
+        <input id="checkbox1" type="checkbox" name="checkbox1" value="on">
+        <select id="select1" name="select1">
+            <option value="val1">val1</option>
+            <option value="val2">val2</option>
+        </select>
+        <textarea id="textarea1"></textarea>
+
+    </form>
+
+
+    <div id="target">
+    </div>
+
+    <form id="form2">
+        <input  type="text" name="text1">
+        <input type="checkbox" name="checkbox1" value="on">
+        <select  name="select1">
+            <option value="val1">val1</option>
+            <option value="val2">val2</option>
+        </select>
+        <textarea name="textarea1"></textarea>
+
+    </form>
+
+
+    <script>
+
+        window.setInterval(() => {
+            console.log(
+                "text1=", KasimirFormSerializer.ElemGetValue("#text1"),
+                "checkbox1=", KasimirFormSerializer.ElemGetValue("#checkbox1"),
+                "select1=", KasimirFormSerializer.ElemGetValue("#select1"),
+                "textarea1=", KasimirFormSerializer.ElemGetValue("#textarea1"),
+                "form1=", KasimirFormSerializer.GetData("#form1")
+            )
+            KasimirFormSerializer.SetData("#form2", KasimirFormSerializer.GetData("#form1"));
+        }, 5000);
+
+    </script>
+
+</body>
+</html>

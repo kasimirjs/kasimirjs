@@ -139,7 +139,7 @@ class KasimirRenderer {
             };
         `;
 
-        console.log(xout);
+        // console.log(xout);
         let fn ;
         eval(xout);
         return new KasimirTemplate(fn);

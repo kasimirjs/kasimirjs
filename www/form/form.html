@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <script type="application/javascript" src="/dist/kasimir.js"></script>
+    <script>
+        var data = {};
+
+        kasimir(() => {
+            console.log ("active");
+
+            kasimir_form("#form1").bind(data).onsubmit((e)=>{console.log(e, data)});
+
+            data.text1 = "musch";
+        });
+
+
+    </script>
+    <form id="form1">
+        <input id="text1" type="text" name="text1">
+        <input id="checkbox1" type="checkbox" name="checkbox1" value="on">
+        <select id="select1" name="select1">
+            <option value="val1">val1</option>
+            <option value="val2">val2</option>
+        </select>
+        <textarea id="textarea1"></textarea>
+
+    </form>
+
+
+    <div id="target">
+    </div>
+
+    <km-tpl id="tpl1" observe="data">
+        <template>
+            <p *for="let i=0; i<100; i++">
+            Text1 ${data.text1}
+            </p>
+        </template>
+    </km-tpl>
+
+
+
+
+
+</body>
+</html>
