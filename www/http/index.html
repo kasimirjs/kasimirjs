@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="application/javascript" src="/dist/kasimir.js"></script>
+
+
+    <div id="target">
+        Output goes here
+    </div>
+
+    <script>
+
+        kasimir_http("/index.html").plain = (res) => console.log("Basic request", res);
+
+    </script>
+
+</body>
+</html>
