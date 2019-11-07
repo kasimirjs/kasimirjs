@@ -61,7 +61,7 @@ class KasimirHttpRequest {
      * @return {KasimirHttpRequest}
      */
     withBearerToken(token) {
-        this.withHeaders({"authorization": "baerer " + token});
+        this.withHeaders({"authorization": "bearer " + token});
         return this;
     }
 

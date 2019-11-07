@@ -21,7 +21,7 @@ class KasimirBinder {
      */
     bind(obj) {
         if (typeof obj !== "object")
-            throw "bind(" + typeof obj + "): parameter must be object.";
+            throw new Error("bind(" + typeof obj + "): parameter must be object.");
         if (this._interval !== null)
             window.clearInterval(this._interval);
 
