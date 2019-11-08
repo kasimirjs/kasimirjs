@@ -7,7 +7,8 @@ class KasimirTemplate {
          * @type {HTMLElement}
          * @private
          */
-        this._bind = null;
+        this._renderInElement = null;
+        this._binder = new KasimirBinder();
     }
 
     /**
@@ -26,7 +27,7 @@ class KasimirTemplate {
         } else {
             throw "bind(): parameter1 is not a HtmlElement";
         }
-        this._bind = node;
+        this._renderInElement = node;
         return this;
     }
 
@@ -37,8 +38,7 @@ class KasimirTemplate {
      * @return {KasimirTemplate}
      */
     render(scope) {
-        console.log(this._tplFn(scope));
-        this._bind.replaceChild(this._tplFn(scope), this._bind.firstChild);
+        this._renderInElement.replaceChild(this._tplFn(scope), this._renderInElement.firstChild);
         return this;
     }
 
@@ -49,12 +49,7 @@ class KasimirTemplate {
      */
     observe(scope) {
         this.render(scope);
-        window.setInterval(e => {
-            if (JSON.stringify(scope) !== this._observedLastValue) {
-                this._observedLastValue = JSON.stringify(scope);
-                this.render(scope);
-            }
-        }, 200);
+        this._binder.bind(scope).setOnChange(()=>this.render(scope));
         return this;
     }
 
