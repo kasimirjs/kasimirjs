@@ -16,6 +16,10 @@
 
         kasimir_http("/index.html").plain = (res) => console.log("Basic request", res);
 
+        kasimir_http("/index.html/{wurst}", {wurst: "02hkjaljk?  +w"}).withParams({a: "b"}).plain = (res) => console.log(res);
+
+        kasimir_http("/index.html/{wurst}", {wurst: "02hkjaljk?  +w"}).withBlocker("a").withParams({a: "b"}).plain = (res) => console.log(res);
+        kasimir_http("/index.html/{wurst}", {wurst: "02hkjaljk?  +w"}).withBlocker("a").withParams({a: "b"}).plain = (res) => console.log(res);
     </script>
 
 </body>

@@ -1,13 +1,16 @@
 
 
+var KASIMIR_HTTP_BLOCK_LIST = {};
+
+
 class KasimirHttpRequest {
 
     constructor(url, params={}) {
 
-        url = url.replace(/(\{|\:)([a-zA-Z0-9_\-]+)/, (match, p1, p2) => {
+        url = url.replace(/(\{|\:)([a-zA-Z0-9_\-]+)(\}|)/, (match, p1, p2) => {
             if ( ! params.hasOwnProperty(p2))
                 throw "parameter '" + p2 + "' missing in url '" + url + "'";
-            return encodeURI(params[p2]);
+            return encodeURIComponent(params[p2]);
         });
 
         this.request = {
@@ -17,7 +20,8 @@ class KasimirHttpRequest {
             headers: {},
             dataType: "text",
             onError: null,
-            data: null
+            data: null,
+            blockerName: null
         };
 
 
@@ -76,6 +80,15 @@ class KasimirHttpRequest {
         return this;
     }
 
+    /**
+     *
+     * @param name
+     * @return {KasimirHttpRequest}
+     */
+    withBlocker(name) {
+        this.request.blockerName = name;
+        return this;
+    }
 
     /**
      *
@@ -126,13 +139,23 @@ class KasimirHttpRequest {
     send(onSuccessFn) {
         let xhttp = new XMLHttpRequest();
 
+        if (this.request.blockerName !== null) {
+            if (KASIMIR_HTTP_BLOCK_LIST[this.request.blockerName] === true) {
+                console.warn("Blocking request " + this.request.blockerName + " / blocking request still in process");
+                return false;
+            }
+            KASIMIR_HTTP_BLOCK_LIST[this.request.blockerName] = true;
+        }
+
         xhttp.open(this.request.method, this.request.url);
         for (let headerName in this.request.headers) {
             xhttp.setRequestHeader(headerName, this.request.headers[headerName]);
         }
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState === 4) {
-                console.log("ok", xhttp);
+                if (this.request.blockerName !== null) {
+                    KASIMIR_HTTP_BLOCK_LIST[this.request.blockerName] = false;
+                }
                 if (this.request.onError !== null && xhttp.status >= 400) {
                     this.request.onError(new KasimirHttpResponse(xhttp.response, xhttp.status, this));
                     return;
